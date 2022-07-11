@@ -1,0 +1,5 @@
+*.pyc
+GAdata.txt
+population_*
+nrsharip_*
+*~lock.data*

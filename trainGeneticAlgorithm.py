@@ -25,10 +25,12 @@
 #
 #Also, a Python version of 3.7 or higher is required.
 #*********************************************************************************
+import random #nrsharip
 import pygame
 from helpers.snakeGameGATrain import SnakeGameGATrain
 from helpers import geneticAlgorithm as ga 
 
+random.seed(123); #nrsharip
 
 def main():
 	"""Function to train the genetic algorithm for creating intelligent Snake Game agents."""
@@ -58,8 +60,12 @@ def main():
 			game.restart = False
 			continue
 		
-		game.redraw_window()
+		# nrsharip - we finished the 200's generation
+		if game.num_generations > 200:
+			return
+
+		#game.redraw_window() #nrsharip
 		
-		game.event_handler()
+		#game.event_handler() #nrsharip
 		
 main()

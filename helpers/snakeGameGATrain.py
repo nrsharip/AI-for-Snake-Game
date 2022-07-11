@@ -63,6 +63,18 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 		This overrides the method in the SnakeGameGATest superclass."""
 
+		# nrsharip
+		if self.num_generations == 200:
+			file = open("nrsharip_200gen.txt", "a+")
+			file.write(
+				        str(self.cur_chrom) 
+				+ " " + str(self.score) 
+				+ " " + str(self.frames_alive) 
+				+ " " + str(self.frames_since_last_fruit) 
+				#+ " " + str(self.population[self.cur_chrom])
+			)
+			file.close()
+
 		#Make necessary updates to move onto the next chromosome.
 		self.fitness_scores.append(self.calc_fitness())
 		self.cur_chrom +=1
@@ -133,4 +145,19 @@ class SnakeGameGATrain(SnakeGameGATest):
 			if frame_score <= 0:
 					frame_score = 1
 
-		return ((self.score*2)**2)*(frame_score**1.5)
+		_1 = (self.score*2)**2 # nrsharip
+		_2 = frame_score**1.5  # nrsharip
+		_3 = _1 * _2           # nrsharip
+
+		# nrsharip
+		if self.num_generations == 200:
+			file = open("nrsharip_200gen.txt", "a+")
+			file.write(
+				  " " + str(_1) 
+				+ " " + str(_2) 
+				+ " " + str(_3)
+			)
+			file.write("\n")
+			file.close()
+
+		return _3

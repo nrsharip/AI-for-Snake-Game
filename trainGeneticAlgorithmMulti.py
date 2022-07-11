@@ -93,7 +93,7 @@ if __name__ == "__main__":
 		while True:
 			results = pool.starmap(starter, [
 				(games, x, population[x]) for x in range(chroms_per_gen)
-			])
+			]) # , chroms_per_gen
 
 			for result in results:
 				(chrom_number, score, fitness) = result
@@ -105,7 +105,6 @@ if __name__ == "__main__":
 			next_generation, best_individual, best_fitness, average_fitness = ga.createNextGeneration(population, fitness_scores, cur_generation)
 			
 			population = next_generation
-			cur_chrom  = 0
 
 			average_game_score = sum(game_scores)/len(game_scores)
 

@@ -1,5 +1,5 @@
 *.pyc
-GAdata.txt
-population_*
+GAdata*
+population*
 nrsharip_*
 *~lock.data*

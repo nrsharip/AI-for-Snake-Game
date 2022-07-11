@@ -44,11 +44,11 @@ def main():
 	population = ga.genPopulation(chroms_per_gen, total_bits)
 	game = SnakeGameGATrain(game_fps, population, chroms_per_gen, bits_per_weight, num_inputs, num_hidden_layer_nodes, num_outputs)
 	
-	pygame.font.init()
+	#pygame.font.init()
 
 	while game.play:
 
-		game.clock.tick(game.fps)
+		#game.clock.tick() # game.clock.tick(game.fps)
 		
 		game.move_snake()
 		game.check_collisions()
@@ -61,8 +61,8 @@ def main():
 			continue
 		
 		# nrsharip - we finished the 200's generation
-		if game.num_generations > 200:
-			return
+		# if game.num_generations > 200:
+		# 	return
 
 		#game.redraw_window() #nrsharip
 		

@@ -39,10 +39,10 @@ class SnakeGame():
 		self.width = 500
 		self.height = 600
 		self.grid_start_y = 100
-		#self.win = pygame.display.set_mode((self.width, self.height))
+		#self.win = pygame.display.set_mode((self.width, self.height)) #nrsharip uncomment
 		self.play = True
 		self.restart = False
-		self.clock = pygame.time.Clock()
+		#self.clock = pygame.time.Clock() #nrsharip uncomment
 		self.fps = fps
 		self.rows = 10
 		self.cols = self.rows

@@ -39,7 +39,7 @@ def genPopulation(popSize, numBits):
 
 	return chromosomes
 
-def createNextGeneration(parentPop, fitnessScores):
+def createNextGeneration(parentPop, fitnessScores, num_generations):
 	"""Function that moves onto the next generation by employing selection, crossover, and mutation on a population
 
 	Arguments:
@@ -54,12 +54,12 @@ def createNextGeneration(parentPop, fitnessScores):
 	"""
 
 	#Assign fitness scores
-	fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness = assignFitnessRatios(parentPop, fitnessScores)
+	fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness = assignFitnessRatios(parentPop, fitnessScores, num_generations)
 
 	childPop = []
 
 	#Save the best individuals from the previous generation
-	bestParents  = extractBestParents(parentPop, fitnessScores)
+	bestParents  = extractBestParents(parentPop, fitnessScores, num_generations)
 
 	#Create a child population the same size as the parent population
 	for _ in range(len(parentPop) - len(bestParents)):
@@ -79,7 +79,7 @@ def createNextGeneration(parentPop, fitnessScores):
 	return childPop, bestIndividual, bestFitness, averageFitness
 
 
-def assignFitnessRatios(parentPop, fitnessScores):
+def assignFitnessRatios(parentPop, fitnessScores, num_generations):
 
 	"""Function that converts each fitness score to a ratio and outputs stats the fitness of a population.
 	
@@ -117,10 +117,25 @@ def assignFitnessRatios(parentPop, fitnessScores):
 	#each cutoff corresponds to the chromosome in the parentPop list at the same index
 	fitnessRouletteCutoffs = list(itertools.accumulate(fitnessRatios))
 
+	# nrsharip 3
+	if num_generations == 201: # we create the next 201st generation after 200s
+		file = open("nrsharip_200gen.txt", "a+")
+		file.write("201st generation fitness ratios and roulette cutoffs:\n")
+		for i in range(len(fitnessScores)):
+			file.write(
+				        str(bestFitness) 
+				+ " " + str(totalScore) 
+				+ " " + str(averageFitness)
+				+ " " + str(fitnessRatios[i]) 
+				+ " " + str(fitnessRouletteCutoffs[i])
+			)
+			file.write("\n")
+		file.close()
+
 	return fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness
 
 
-def extractBestParents(parentPop, fitnessScores):
+def extractBestParents(parentPop, fitnessScores, num_generations):
 	"""Function that extracts the parent chromosomes with a fitness in the top 1/2 of scores.
 	
 	This is known as the (n+n) method, and is used to save parent chromosomes in case they are valuable.
@@ -145,11 +160,32 @@ def extractBestParents(parentPop, fitnessScores):
 
 	bestParents = []
 
+	# nrsharip 4
+	if num_generations == 201: # we create the next 201st generation after 200s
+		file = open("nrsharip_200gen.txt", "a+")
+		file.write("201st generation extracting best parents:\n")
+
 	#Find the chromsomes with fitness scores above the cutoff
 	for i in range(len(parentPop)):
 
 		if fitnessScores[i] > bestScoresCutoff:
 			bestParents.append(parentPop[i])
+
+		# nrsharip 4
+		if num_generations == 201: # we create the next 201st generation after 200s
+			if fitnessScores[i] > bestScoresCutoff:
+				file.write(
+					str(fitnessScores[i]) 
+				)
+			else:
+				file.write(
+					str(0) 
+				)
+			file.write("\n")
+
+	# nrsharip 4
+	if num_generations == 201: # we create the next 201st generation after 200s
+		file.close()
 
 	return bestParents
 

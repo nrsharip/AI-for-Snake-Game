@@ -63,7 +63,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 		This overrides the method in the SnakeGameGATest superclass."""
 
-		# nrsharip
+		# nrsharip 1
 		if self.num_generations == 200:
 			file = open("nrsharip_200gen.txt", "a+")
 			file.write(
@@ -84,7 +84,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 		if self.cur_chrom == self.chroms_per_gen:
 			#Move onto next generation
 			self.num_generations +=1
-			next_generation, best_individual, best_fitness, average_fitness = ga.createNextGeneration(self.population, self.fitness_scores)
+			next_generation, best_individual, best_fitness, average_fitness = ga.createNextGeneration(self.population, self.fitness_scores, self.num_generations)
 			
 			self.population = next_generation
 			self.cur_chrom  = 0
@@ -147,9 +147,9 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 		_1 = (self.score*2)**2 # nrsharip
 		_2 = frame_score**1.5  # nrsharip
-		_3 = _1 * _2           # nrsharip
+		_3 = _1 * _2           # nrsharip ((self.score*2)**2)*(frame_score**1.5)
 
-		# nrsharip
+		# nrsharip 2
 		if self.num_generations == 200:
 			file = open("nrsharip_200gen.txt", "a+")
 			file.write(

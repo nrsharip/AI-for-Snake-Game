@@ -1,3 +1,37 @@
+### [trainGeneticAlgorithm.py#L33](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/trainGeneticAlgorithm.py#L33)
+```
+random.seed(123); #nrsharip
+```
+### [helpers/snakeGameGATrain.py#L67](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/snakeGameGATrain.py#L67) 
+
+<img src="docs/chart1.png?raw=true" width="100%">
+
+### [helpers/snakeGameGATrain.py#L153](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/snakeGameGATrain.py#L153)
+
+<img src="docs/chart2.png?raw=true" width="100%">
+
+### [helpers/snakeGameGATrain.py#L158](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/snakeGameGATrain.py#L158)
+
+**Linear Scale:**
+
+<img src="docs/chart3.png?raw=true" width="100%">
+
+**Logarithmic Scale:**
+
+<img src="docs/chart4.png?raw=true" width="100%">
+
+### [helpers/geneticAlgorithm.py#L129](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/geneticAlgorithm.py#L129)
+
+<img src="docs/chart5.png?raw=true" width="100%">
+
+### [helpers/geneticAlgorithm.py#L130](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/geneticAlgorithm.py#L130)
+
+<img src="docs/chart6.png?raw=true" width="100%">
+
+### [helpers/geneticAlgorithm.py#L178](https://github.com/nrsharip/AI-for-Snake-Game/blob/3ca7d533bde3d967798b9fc0f5bce3bc49d41843/helpers/geneticAlgorithm.py#L178)
+
+<img src="docs/chart7.png?raw=true" width="100%">
+
 ***Overview***:
 
 This was a project to develop agents that are very good at playing the classic Snake Game. In summary,

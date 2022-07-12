@@ -96,5 +96,5 @@ class SnakeGameGATrainMulti(SnakeGameGATest):
 		_2 = frame_score**1.5  # nrsharip
 		_3 = _1 * _2           # nrsharip ((self.score*2)**2)*(frame_score**1.5)
 
-		return _3
+		return (_3, frame_score)
 			

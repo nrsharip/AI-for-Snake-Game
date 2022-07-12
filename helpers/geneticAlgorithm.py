@@ -39,7 +39,7 @@ def genPopulation(popSize, numBits):
 
 	return chromosomes
 
-def createNextGeneration(parentPop, fitnessScores, num_generations):
+def createNextGeneration(parentPop, fitnessScores, num_generations, label=None):
 	"""Function that moves onto the next generation by employing selection, crossover, and mutation on a population
 
 	Arguments:
@@ -54,12 +54,12 @@ def createNextGeneration(parentPop, fitnessScores, num_generations):
 	"""
 
 	#Assign fitness scores
-	fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness = assignFitnessRatios(parentPop, fitnessScores, num_generations)
+	fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness = assignFitnessRatios(parentPop, fitnessScores, num_generations, label)
 
 	childPop = []
 
 	#Save the best individuals from the previous generation
-	bestParents  = extractBestParents(parentPop, fitnessScores, num_generations)
+	bestParents  = extractBestParents(parentPop, fitnessScores, num_generations, label)
 
 	#Create a child population the same size as the parent population
 	for _ in range(len(parentPop) - len(bestParents)):
@@ -79,7 +79,7 @@ def createNextGeneration(parentPop, fitnessScores, num_generations):
 	return childPop, bestIndividual, bestFitness, averageFitness
 
 
-def assignFitnessRatios(parentPop, fitnessScores, num_generations):
+def assignFitnessRatios(parentPop, fitnessScores, num_generations, label):
 
 	"""Function that converts each fitness score to a ratio and outputs stats the fitness of a population.
 	
@@ -118,9 +118,9 @@ def assignFitnessRatios(parentPop, fitnessScores, num_generations):
 	fitnessRouletteCutoffs = list(itertools.accumulate(fitnessRatios))
 
 	# nrsharip 3
-	if num_generations == 201: # we create the next 201st generation after 200s
-		file = open("nrsharip_200gen.txt", "a+")
-		file.write("201st generation fitness ratios and roulette cutoffs:\n")
+	if label is not None and num_generations % 100 == 1: # we create the next generation after 100s
+		file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
+		file.write(f"{num_generations}'s generation fitness ratios and roulette cutoffs:\n")
 		for i in range(len(fitnessScores)):
 			file.write(
 				        str(bestFitness) 
@@ -135,7 +135,7 @@ def assignFitnessRatios(parentPop, fitnessScores, num_generations):
 	return fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness
 
 
-def extractBestParents(parentPop, fitnessScores, num_generations):
+def extractBestParents(parentPop, fitnessScores, num_generations, label):
 	"""Function that extracts the parent chromosomes with a fitness in the top 1/2 of scores.
 	
 	This is known as the (n+n) method, and is used to save parent chromosomes in case they are valuable.
@@ -161,9 +161,9 @@ def extractBestParents(parentPop, fitnessScores, num_generations):
 	bestParents = []
 
 	# nrsharip 4
-	if num_generations == 201: # we create the next 201st generation after 200s
-		file = open("nrsharip_200gen.txt", "a+")
-		file.write("201st generation extracting best parents:\n")
+	if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
+		file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
+		file.write(f"{num_generations}'s generation extracting best parents:\n")
 
 	#Find the chromsomes with fitness scores above the cutoff
 	for i in range(len(parentPop)):
@@ -172,7 +172,7 @@ def extractBestParents(parentPop, fitnessScores, num_generations):
 			bestParents.append(parentPop[i])
 
 		# nrsharip 4
-		if num_generations == 201: # we create the next 201st generation after 200s
+		if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
 			if fitnessScores[i] > bestScoresCutoff:
 				file.write(
 					str(fitnessScores[i]) 
@@ -184,7 +184,7 @@ def extractBestParents(parentPop, fitnessScores, num_generations):
 			file.write("\n")
 
 	# nrsharip 4
-	if num_generations == 201: # we create the next 201st generation after 200s
+	if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
 		file.close()
 
 	return bestParents

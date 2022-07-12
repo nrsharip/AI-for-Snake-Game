@@ -30,6 +30,7 @@ import multiprocessing
 import os
 from helpers import geneticAlgorithm as ga
 from helpers.snakeGameGATrainMulti import SnakeGameGATrainMulti 
+from time import gmtime, strftime
 
 def starter(games, cur_chrom, chromosome):
 	#print(multiprocessing.current_process().name, cur_chrom, sep=' ')
@@ -52,13 +53,25 @@ def starter(games, cur_chrom, chromosome):
 		cur_game.update_frames_since_last_fruit()
 		cur_game.frames_alive += 1
 
-	result = (cur_chrom, cur_game.score, cur_game.calc_fitness())
+	# GAME OVER
+
+	result = (cur_chrom, cur_game.score, cur_game.frames_alive, cur_game.calc_fitness())
 	cur_game.released = True
 
 	return result
 
 if __name__ == "__main__":
 	#random.seed(123); #nrsharip
+    
+	label = strftime("_%Y%m%d%H%M%S", gmtime())
+
+	dir_populations = "populations" + label
+	dir_nrsharip = "nrsharip" + label
+
+	if not os.path.exists(dir_populations) or not os.path.isdir(dir_populations):
+		os.mkdir(dir_populations, 0o777)
+	if not os.path.exists(dir_nrsharip) or not os.path.isdir(dir_nrsharip):
+		os.mkdir(dir_nrsharip, 0o777)
 
 	chroms_per_gen = 200
 	bits_per_weight = 8
@@ -75,12 +88,14 @@ if __name__ == "__main__":
 	
 	population = ga.genPopulation(chroms_per_gen, total_bits)
 
-	fitness_scores = [None] * chroms_per_gen
 	game_scores = [None] * chroms_per_gen
+	frames_alives = [None] * chroms_per_gen
+	frames_scores = [None] * chroms_per_gen
+	fitness_scores = [None] * chroms_per_gen
 	
 	games = []
 	high_score = 0
-	cur_generation = 0
+	num_generations = 0
 
 	# https://realpython.com/python-concurrency/
 	with multiprocessing.Pool() as pool:
@@ -96,43 +111,74 @@ if __name__ == "__main__":
 			]) # , chroms_per_gen
 
 			for result in results:
-				(chrom_number, score, fitness) = result
+				(chrom_number, score, frames_alive, (fitness, frame_score) ) = result
 				game_scores[chrom_number] = score
+				frames_alives[chrom_number] = frames_alive
+				frames_scores[chrom_number] = frame_score
 				fitness_scores[chrom_number] = fitness
 
+			# nrsharip 1
+			if num_generations % 100 == 0:
+				file = open(f"nrsharip{label}/nrsharip_gen{num_generations}.txt", "a+")
+				for i in range(chroms_per_gen):
+					# nrsharip 2
+					_1 = (game_scores[i]*2)**2 # nrsharip
+					_2 = frames_scores[i]**1.5 # nrsharip
+					_3 = _1 * _2           	   # nrsharip ((self.score*2)**2)*(frame_score**1.5)
+					
+					file.write(
+								str(i) 
+						+ " " + str(game_scores[i]) 
+						+ " " + str(frames_alives[i]) 
+						#+ " " + str(frames_since_last_fruit) 
+						#+ " " + str(chromosome)
+						
+						# nrsharip 2
+						+ " " + str(_1) 
+						+ " " + str(_2) 
+						+ " " + str(_3)
+					)
+					file.write("\n")
+				file.close()
+
 			#Move onto next generation
-			cur_generation +=1
-			next_generation, best_individual, best_fitness, average_fitness = ga.createNextGeneration(population, fitness_scores, cur_generation)
+			num_generations +=1
+			next_generation, best_individual, best_fitness, average_fitness = ga.createNextGeneration(population, fitness_scores, num_generations, label)
 			
 			population = next_generation
 
 			average_game_score = sum(game_scores)/len(game_scores)
+			average_frames_alive = sum(frames_alives)/len(frames_alives)
 
 			high_score_per_cur_gen = max(game_scores)
+			high_frames_alive_per_cur_gen = max(frames_alives)
 
 			if high_score_per_cur_gen > high_score:
 				high_score = high_score_per_cur_gen
 
-			print(cur_generation, high_score, average_game_score, high_score_per_cur_gen, average_fitness)
+			print(num_generations, high_score, average_game_score, high_score_per_cur_gen, average_fitness)
 
 			for i in range(chroms_per_gen):
 				fitness_scores[i] = None
 				game_scores[i] = None
 
 			#Write data about this generation to ga_data.txt
-			file = open("GAdata.txt", "a+")
-			file.write("Generation " + str(cur_generation) + "\n")
+			file = open(f"GAdata{label}.txt", "a+")
+			file.write("Generation " + str(num_generations) + "\n")
 			file.write("Best Individual: " + str(best_individual) + "\n")
+			file.write("Best Game Score: " + str(high_score_per_cur_gen) + "\n")
+			file.write("Best Frames Alive: " + str(high_frames_alive_per_cur_gen) + "\n")
 			file.write("Best Fitness: " + str(best_fitness) + "\n")
-			file.write("Average Fitness:" + str(average_fitness) + "\n")
-			file.write("Average Game Score:" + str(average_game_score) + "\n\n")
+			file.write("Average Game Score: " + str(average_game_score) + "\n")
+			file.write("Average Frames Alive: " + str(average_frames_alive) + "\n")
+			file.write("Average Fitness: " + str(average_fitness) + "\n\n")
 			file.write("\n")
 			file.close()
 
 			#Every 10 generations save the population to a file in the populations folder
-			if cur_generation % 10 == 0:
+			if num_generations % 10 == 0:
 				#Get the path of the directory with all the populations
-				abs_file_path = os.path.join(os.getcwd(), "populations/population_" + str(cur_generation) + ".txt")
+				abs_file_path = os.path.join(os.getcwd(), f"{dir_populations}/population_" + str(num_generations) + ".txt")
 				file = open(abs_file_path, "a+")
 				file.write(str(population))
 				file.write("\n")

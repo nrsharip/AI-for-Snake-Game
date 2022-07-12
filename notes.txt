@@ -1,0 +1,6 @@
+> grep "Average Game Score" GAdata_20220712124030.txt > ../avg_scores.txt
+> grep "Average Fitness" GAdata_20220712124030.txt > ../avg_fitness.txt
+> grep "Average Frames Alive" GAdata_20220712124030.txt > ../avg_frames.txt
+> grep "Best Game Score" GAdata_20220712124030.txt > ../best_scores.txt
+> grep "Best Fitness" GAdata_20220712124030.txt > ../best_fitness.txt
+> grep "Best Frames Alive" GAdata_20220712124030.txt > ../best_frames.txt

@@ -48,6 +48,8 @@ class SnakeGame():
 		self.cols = self.rows
 		self.snake = Snake(self.rows,self.cols)
 		self.fruit_pos = (0,0)
+		#self.fruit_poss_i = 0
+		#self.fruit_poss = [ (3, 3), (3, 7), (7, 7), (7, 3) ]
 		self.generate_fruit()
 		self.score = 0
 		self.high_score = 0
@@ -105,6 +107,9 @@ class SnakeGame():
 
 
 		self.fruit_pos = (fruit_row,fruit_col)
+
+		#self.fruit_pos = self.fruit_poss[self.fruit_poss_i]
+		#self.fruit_poss_i += 1
 
 	def move_snake(self):
 		"""Function to allow the user to move the snake with the arrow keys."""

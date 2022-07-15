@@ -76,6 +76,9 @@ class SnakeGameGATest(SnakeGame):
 		outputs = nn.testNetwork(network_inputs, self.weights, self.num_hidden_layer_nodes, self.num_outputs)
 		#Get the maximum of all the ouputs, and this is the direction to turn
 		max_output = max(outputs)
+		#print(self.fruit_pos[0], self.fruit_pos[1], head[0], head[1])
+		#print(dist_left_fruit, dist_up_fruit, dist_right_fruit, dist_down_fruit,  open_spaces_left, open_spaces_up, open_spaces_down, open_spaces_right, length)
+		#print(outputs[0], outputs[1], outputs[2], outputs[3], max_output)
 		#Systematically decide which direction to turn based on the max output
 		if max_output == outputs[0]:
 			direct = "left"

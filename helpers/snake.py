@@ -39,7 +39,7 @@ class Snake():
 
 		"""
 		snake_row = self.rows//2
-		snake_col = 1
+		snake_col = self.cols//2 #1
 
 		return (snake_row,snake_col)
 

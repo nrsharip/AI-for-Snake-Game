@@ -118,19 +118,19 @@ def assignFitnessRatios(parentPop, fitnessScores, num_generations, label):
 	fitnessRouletteCutoffs = list(itertools.accumulate(fitnessRatios))
 
 	# nrsharip 3
-	if label is not None and num_generations % 100 == 1: # we create the next generation after 100s
-		file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
-		file.write(f"{num_generations}'s generation fitness ratios and roulette cutoffs:\n")
-		for i in range(len(fitnessScores)):
-			file.write(
-				        str(bestFitness) 
-				+ " " + str(totalScore) 
-				+ " " + str(averageFitness)
-				+ " " + str(fitnessRatios[i]) 
-				+ " " + str(fitnessRouletteCutoffs[i])
-			)
-			file.write("\n")
-		file.close()
+	# if label is not None and num_generations % 100 == 1: # we create the next generation after 100s
+	# 	file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
+	# 	file.write(f"{num_generations}'s generation fitness ratios and roulette cutoffs:\n")
+	# 	for i in range(len(fitnessScores)):
+	# 		file.write(
+	# 			        str(bestFitness) 
+	# 			+ " " + str(totalScore) 
+	# 			+ " " + str(averageFitness)
+	# 			+ " " + str(fitnessRatios[i]) 
+	# 			+ " " + str(fitnessRouletteCutoffs[i])
+	# 		)
+	# 		file.write("\n")
+	# 	file.close()
 
 	return fitnessRouletteCutoffs, bestIndividual, bestFitness, averageFitness
 
@@ -161,9 +161,9 @@ def extractBestParents(parentPop, fitnessScores, num_generations, label):
 	bestParents = []
 
 	# nrsharip 4
-	if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
-		file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
-		file.write(f"{num_generations}'s generation extracting best parents:\n")
+	# if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
+	# 	file = open(f"nrsharip{label}/nrsharip_gen{num_generations - 1}.txt", "a+")
+	# 	file.write(f"{num_generations}'s generation extracting best parents:\n")
 
 	#Find the chromsomes with fitness scores above the cutoff
 	for i in range(len(parentPop)):
@@ -172,20 +172,20 @@ def extractBestParents(parentPop, fitnessScores, num_generations, label):
 			bestParents.append(parentPop[i])
 
 		# nrsharip 4
-		if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
-			if fitnessScores[i] > bestScoresCutoff:
-				file.write(
-					str(fitnessScores[i]) 
-				)
-			else:
-				file.write(
-					str(0) 
-				)
-			file.write("\n")
+		# if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
+		# 	if fitnessScores[i] > bestScoresCutoff:
+		# 		file.write(
+		# 			str(fitnessScores[i]) 
+		# 		)
+		# 	else:
+		# 		file.write(
+		# 			str(0) 
+		# 		)
+		# 	file.write("\n")
 
 	# nrsharip 4
-	if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
-		file.close()
+	# if label is not None and num_generations % 100 == 1: # we create the nextgeneration after 100s
+	# 	file.close()
 
 	return bestParents
 

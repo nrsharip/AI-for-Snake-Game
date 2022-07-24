@@ -91,6 +91,8 @@ if __name__ == "__main__":
 	game_scores = [None] * chroms_per_gen
 	frames_alives = [None] * chroms_per_gen
 	frames_scores = [None] * chroms_per_gen
+	_1s = [None] * chroms_per_gen
+	_2s = [None] * chroms_per_gen
 	fitness_scores = [None] * chroms_per_gen
 	
 	games = []
@@ -111,20 +113,22 @@ if __name__ == "__main__":
 			]) # , chroms_per_gen
 
 			for result in results:
-				(chrom_number, score, frames_alive, (fitness, frame_score) ) = result
+				(chrom_number, score, frames_alive, (_1, _2, fitness, frame_score) ) = result
+				_1s[chrom_number] = _1
+				_2s[chrom_number] = _2
 				game_scores[chrom_number] = score
 				frames_alives[chrom_number] = frames_alive
 				frames_scores[chrom_number] = frame_score
 				fitness_scores[chrom_number] = fitness
 
 			# nrsharip 1
-			if num_generations % 100 == 0:
+			if num_generations % 10 == 0:
 				file = open(f"nrsharip{label}/nrsharip_gen{num_generations}.txt", "a+")
 				for i in range(chroms_per_gen):
 					# nrsharip 2
-					_1 = (game_scores[i]*2)**2 # nrsharip
-					_2 = frames_scores[i]**1.5 # nrsharip
-					_3 = _1 * _2           	   # nrsharip ((self.score*2)**2)*(frame_score**1.5)
+					_1 = _1s[i]             # nrsharip
+					_2 = _2s[i]             # nrsharip
+					_3 = fitness_scores[i]  # nrsharip ((self.score*2)**2)*(frame_score**1.5)
 					
 					file.write(
 								str(i) 
@@ -159,6 +163,8 @@ if __name__ == "__main__":
 			print(num_generations, high_score, average_game_score, high_score_per_cur_gen, average_fitness)
 
 			for i in range(chroms_per_gen):
+				_1s[i] = None
+				_2s[i] = None
 				fitness_scores[i] = None
 				game_scores[i] = None
 

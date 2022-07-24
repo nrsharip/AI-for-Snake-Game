@@ -200,7 +200,16 @@ class SnakeGameGATest(SnakeGame):
 		"""Function to check if the snake needs to be killed for not eating a fruit in a while."""
 		
 		self.frames_since_last_fruit += 1
-		if (self.frames_since_last_fruit == 50 and self.score < 6) or self.frames_since_last_fruit == 250:
+		# nrsharip
+		#if (self.frames_since_last_fruit == 50 and self.score < 6) or self.frames_since_last_fruit == 250:
+		#	self.game_over()
+
+		# Update 1
+		# if self.frames_since_last_fruit == 300:
+		# 	self.game_over()
+
+		# Update 2
+		if self.frames_since_last_fruit == 100:
 			self.game_over()
 
 	

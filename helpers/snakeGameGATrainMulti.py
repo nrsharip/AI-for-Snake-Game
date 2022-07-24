@@ -83,18 +83,46 @@ class SnakeGameGATrainMulti(SnakeGameGATest):
 		"""
 
 		frame_score = self.frames_alive
-		#If the frames since the last fruit was eaten is at least 50
-		if self.frames_since_last_fruit >= 50:
-			#Subtract the number of frames since the last fruit was eaten from the fitness
-			#This is to discourage snakes from trying to gain fitness by avoiding fruit
+
+		# #If the frames since the last fruit was eaten is at least 50
+		# if self.frames_since_last_fruit >= 50:
+		# 	#Subtract the number of frames since the last fruit was eaten from the fitness
+		# 	#This is to discourage snakes from trying to gain fitness by avoiding fruit
+		# 	frame_score = self.frames_alive - self.frames_since_last_fruit
+		# 	#Ensure we do not multiply fitness by a factor of 0
+		# 	if frame_score <= 0:
+		# 			frame_score = 1
+
+		# nrsharip
+		# Update 1
+		# if self.frames_since_last_fruit == 300:
+		# 	frame_score = self.frames_alive - self.frames_since_last_fruit
+		# 	if frame_score <= 0:
+		# 		frame_score = 0
+
+		# Update 2
+		if self.frames_since_last_fruit == 100:
 			frame_score = self.frames_alive - self.frames_since_last_fruit
-			#Ensure we do not multiply fitness by a factor of 0
 			if frame_score <= 0:
-					frame_score = 1
+				frame_score = 0
 
-		_1 = (self.score*2)**2 # nrsharip
-		_2 = frame_score**1.5  # nrsharip
-		_3 = _1 * _2           # nrsharip ((self.score*2)**2)*(frame_score**1.5)
+		# _1 = (self.score*2)**2 # nrsharip
+		# _2 = frame_score**1.5  # nrsharip
+		# Update 1
+		# _1 = self.score**2 						   # nrsharip
+		# _2 = frame_score**((self.score + 1)**(1/3))  # nrsharip
+		# Update 2
+		# https://www.desmos.com/calculator/i7lsygzhny
+		# _1 = self.score**(5 - (self.score + 1)**(1/5)) # nrsharip
+		# https://www.desmos.com/calculator/rgx2fdpkiy
+		# _2 = frame_score**((self.score + 1)**(1/3))    # nrsharip
+		# Update 3
+		# https://www.desmos.com/calculator/5otbtyqifv
+		_1 = self.score**(4.5 - (self.score + 1)**(1/5)) # nrsharip
+		# https://www.desmos.com/calculator/rgx2fdpkiy
+		_2 = frame_score**((self.score + 1)**(1/3))    # nrsharip
 
-		return (_3, frame_score)
+		_3 = _1 * _2                                   # nrsharip ((self.score*2)**2)*(frame_score**1.5)
+
+		return (_1, _2, _3, frame_score)
 			
